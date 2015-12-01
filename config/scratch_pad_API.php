@@ -14,7 +14,7 @@ $app = new \Slim\Slim();
 // PARAM: detail (string) all|header
 // EXAMPLE: /api/v1/account?customer_id=1234&detail=all
 $app->get(
-    '/api/v1/assets_by_date',
+    '/v1/assets_by_date',
     function () use ($app) {
         $start_date = $app->request()->get("start_date");
         $end_date = $app->request()->get("end_date");
