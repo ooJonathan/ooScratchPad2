@@ -44,34 +44,6 @@ $app->get(
     }
 );
 
-$app->get(
-    '/v1/asset/',
-    function () use ($app) {
-        $start_date = $app->request()->get("start_date");
-        $end_date = $app->request()->get("end_date");
-        $assetsByDate = new assetsByDate();
-         $limit = $app->request()->get("limit");
-          if(isset($start_date) && isset($end_date) ){
-            $jsonData = $assetsByDate->getAssetsInBetween($start_date ,$end_date,$limit );
-          }
-          else if (isset($start_date) && !isset($end_date) ) {
-            $jsonData = $assetsByDate->getAssetsAfter($start_date,$limit );
-          }
-          else if (!isset($start_date) && isset($end_date) ) {
-            $jsonData = $assetsByDate->getAssetsBefore($start_date ,$limit);
-          }
-          else if (!isset($start_date) && !isset($end_date) ) {
-            $jsonData = $assetsByDate->getAssets($limit);
-          }
-          else if (!isset($start_date) && !isset($end_date) ) {
-            $jsonData = $assetsByDate->getAssets($limit);
-          }
-       else{
-        throw new Exception(" No valid parameters have been submitted");
-       }
-        echo $jsonData;
-    }
-);
 
 $app->run();
 
