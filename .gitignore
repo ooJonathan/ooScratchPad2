@@ -1,4 +1,4 @@
 
 .DS_Store
-
+config/api_config.php
 config/api_config_local.php
