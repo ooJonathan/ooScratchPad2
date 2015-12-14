@@ -3,7 +3,7 @@
 // v1.0.0
 // Class for retrieving JSON data from the API
 
-class assetsByDate {
+class rootLabels {
 
   protected $Ooyala_api = null;
 
@@ -35,57 +35,42 @@ public function __destruct() {
 
       return $this->Ooyala_api->get($url,$params);
     }
-    // Provides a JSON-ified version of the Asssets in between dates.
-    public function getAssetsInBetween($start_date,$end_date,$limit=500,$page_token =null){
+     // Provides a JSON-ified version of root labels
+     public function getRoots($limit=500,$page_token =null){
 
-        $params = array(
-	     	"user_permission" => "admin",
-	    	"limit" => $limit,
-	     	"where" =>"created_at>'".$start_date."' AND created_at<'".$end_date."'"
-	        );
-
-          //Add next page parameter if it exist
-          if(!is_null($page_token)){
-           $params["page_token"] =$page_token;
-          }
-
-	      $results = $this->getData("/v2/assets",$params);
-        return json_encode($results);
-    }
-
-     // Provides a JSON-ified version of the Asssets in after a certain date.
-    public function getAssetsAfter($start_date,$limit=500){
         $params = array(
         "user_permission" => "admin",
         "limit" => $limit,
-        "where" =>"created_at>'".$start_date."'"
+        "is_root" =>"true"
           );
+
           //Add next page parameter if it exist
           if(!is_null($page_token)){
            $params["page_token"] =$page_token;
           }
-          // Get API Data results
-        $results = $this->getData("/v2/assets",$params);
+
+        $results = $this->getData("/v2/labels/",$params);
         return json_encode($results);
     }
 
+    // Provides a JSON-ified version of the Asssets in between dates.
+    public function getSubLabels($root,$limit=500,$page_token =null){
 
-    // Provides a JSON-ified version of the Asssets in after a certain date.
-   public function getAssetsBefore($end_date,$limit=500,$page_token){
+        $params = array(
+	     	"user_permission" => "admin",
+	    	"limit" => $limit
+	      );
 
-       $params = array(
-       "user_permission" => "admin",
-       "limit" => $limit,
-       "where" =>"created_at<'".$end_date."'"
-         );
-         //Add next page parameter if it exist
-         if(!is_null($page_token)){
-           $params["where"] .= "&page_token".$page_token;
-         }
-       $results = $this->getData("/v2/assets",$params);
-       return json_encode($results);
-   }
+          //Add next page parameter if it exist
+          if(!is_null($page_token)){
+           $params["page_token"] =$page_token;
+          }
+          //v2/labels/:label_id/children
+	      $results = $this->getData("/v2/labels/".$root."/children",$params);
+        return json_encode($results);
+    }
 
+   
    // Provides a JSON-ified version of the Asssets No Dates .
   public function getAssets($limit = 500,$page_token=null){
       $params = array(

@@ -4,6 +4,7 @@
 
 require '../vendor/Slim/Slim.php';
 require 'byDate.php';
+require 'rootLabels.php';
 
 \Slim\Slim::registerAutoloader();
 
@@ -151,6 +152,40 @@ $app->get(
        else{
         throw new Exception(" No valid parameters have been submitted");
        }
+        echo $jsonData;
+    }
+);
+
+$app->get(
+    '/v1/labels/root_labels',
+    function () use ($app) {
+        ///Get all applicable URL parameters
+        $page_token = $app->request()->get("page_token");
+        $apiKey = $app->request()->get("api_key");
+        $Secret = $app->request()->get("secret");
+        $limit = $app->request()->get("limit");
+
+        $rootLabel = new rootLabels($apiKey ,$Secret );
+
+        $jsonData = $rootLabel->getRoots($limit,$page_token );
+        echo $jsonData;
+    }
+);
+
+$app->get(
+    '/v1/labels/sub_labels',
+    function () use ($app) {
+        ///Get all applicable URL parameters
+        $page_token = $app->request()->get("page_token");
+        $apiKey = $app->request()->get("api_key");
+        $Secret = $app->request()->get("secret");
+        $limit = $app->request()->get("limit");
+        $root = $app->request()->get("root");
+
+        $rootLabel = new rootLabels($apiKey ,$Secret );
+
+        $jsonData = $rootLabel->getSubLabels($root,$limit,$page_token);
+        
         echo $jsonData;
     }
 );
