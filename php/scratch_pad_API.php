@@ -155,7 +155,7 @@ $app->get(
         echo $jsonData;
     }
 );
-
+//http://localhost/Ooyala/SP2/php/scratch_pad_API.php/v1/labels/root_labels?limit=30&api_key=psdnIxOp5EspFvxY5BhtYvVhsbfw.p3BB9&secret=FfdJDNQ6D10itPWaYviOyOwP2rAKYnyaxoqLc6JP
 $app->get(
     '/v1/labels/root_labels',
     function () use ($app) {
@@ -171,7 +171,7 @@ $app->get(
         echo $jsonData;
     }
 );
-
+//http://localhost/Ooyala/SP2/php/scratch_pad_API.php/v1/labels/sub_labels?limit=30&api_key=psdnIxOp5EspFvxY5BhtYvVhsbfw.p3BB9&secret=FfdJDNQ6D10itPWaYviOyOwP2rAKYnyaxoqLc6JP&root=33339c0a5c89487da9290e964707a966
 $app->get(
     '/v1/labels/sub_labels',
     function () use ($app) {
