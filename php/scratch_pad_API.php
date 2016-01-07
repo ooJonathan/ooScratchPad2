@@ -190,6 +190,26 @@ $app->get(
     }
 );
 
+//http://localhost/Ooyala/SP2/php/scratch_pad_API.php/v1/assets/under_label?limit=30&api_key=psdnIxOp5EspFvxY5BhtYvVhsbfw.p3BB9&secret=FfdJDNQ6D10itPWaYviOyOwP2rAKYnyaxoqLc6JP&under_label=33339c0a5c89487da9290e964707a966
+$app->get(
+    '/v1/assets/under_label',
+    function () use ($app) {
+        ///Get all applicable URL parameters
+        $page_token = $app->request()->get("page_token");
+        $apiKey = $app->request()->get("api_key");
+        $Secret = $app->request()->get("secret");
+        $limit = $app->request()->get("limit");
+        $root = $app->request()->get("under_label");
+
+        $under_label = new rootLabels($apiKey ,$Secret);
+
+        $jsonData = $under_label->getAssetsUnderLabel($root,$limit,$page_token);
+        
+        echo $jsonData;
+    }
+);
+
+
 $app->get(
     '/v1/asset/',
     function () use ($app) {

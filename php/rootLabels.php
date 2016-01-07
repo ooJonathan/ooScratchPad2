@@ -53,8 +53,26 @@ public function __destruct() {
         return json_encode($results);
     }
 
-    // Provides a JSON-ified version of the Asssets in between dates.
-    public function getSubLabels($root,$limit=500,$page_token =null){
+    // Provides a JSON-ified version of the labels under certain root label 
+    public function getSubLabels($root_label,$limit=500,$page_token =null){
+
+        $params = array(
+        "user_permission" => "admin",
+        "limit" => $limit
+        );
+
+          //Add next page parameter if it exist
+          if(!is_null($page_token)){
+           $params["page_token"] =$page_token;
+          }
+          //v2/labels/:label_id/children
+        $results = $this->getData("/v2/labels/".$root_label."/children",$params);
+        return json_encode($results);
+    }
+
+
+    // Provides a JSON-ified version of the Asssets under certain label
+    public function getAssetsUnderLabel($under_label,$limit=500,$page_token =null){
 
         $params = array(
 	     	"user_permission" => "admin",
@@ -66,52 +84,52 @@ public function __destruct() {
            $params["page_token"] =$page_token;
           }
           //v2/labels/:label_id/children
-	      $results = $this->getData("/v2/labels/".$root."/children",$params);
+	      $results = $this->getData("/v2/labels/".$under_label."/assets",$params);
         return json_encode($results);
     }
 
    
-   // Provides a JSON-ified version of the Asssets No Dates .
-  public function getAssets($limit = 500,$page_token=null){
-      $params = array(
-      "user_permission" => "admin",
-      "limit" => $limit
-        );
-        //Add next page parameter if it exist
-       if(!is_null($page_token)){
-        $params["page_token"] =$page_token;
-       }
+ //   // Provides a JSON-ified version of the Asssets No Dates .
+ //  public function getAssets($limit = 500,$page_token=null){
+ //      $params = array(
+ //      "user_permission" => "admin",
+ //      "limit" => $limit
+ //        );
+ //        //Add next page parameter if it exist
+ //       if(!is_null($page_token)){
+ //        $params["page_token"] =$page_token;
+ //       }
 
 
-      $results = $this->getData("/v2/assets",$params);
-      return json_encode($results);
-  }
-  // Provides a JSON-ified version of 1 Assset details .
- public function getAsset($embed_code,$limit = 500,$metadata = null ,$labels = null ){
+ //      $results = $this->getData("/v2/assets",$params);
+ //      return json_encode($results);
+ //  }
+ //  // Provides a JSON-ified version of 1 Assset details .
+ // public function getAsset($embed_code,$limit = 500,$metadata = null ,$labels = null ){
 
-     $params = array(
-     "user_permission" => "admin",
-     "limit" => $limit
-   //  "where" =>"created_at<'".$end_date."'"
-       );
-     if(!is_null($metadata)){
-       $params["where"] = "include=metadata";
-     }
+ //     $params = array(
+ //     "user_permission" => "admin",
+ //     "limit" => $limit
+ //   //  "where" =>"created_at<'".$end_date."'"
+ //       );
+ //     if(!is_null($metadata)){
+ //       $params["where"] = "include=metadata";
+ //     }
 
-     if(!is_null($page_token)){
-      $params["page_token"] =$page_token;
-     }
+ //     if(!is_null($page_token)){
+ //      $params["page_token"] =$page_token;
+ //     }
 
-     if(!is_null($labels)){
-         if (is_null($params["where"])){
-           $params["where"] ="include=metadata";
-         }else {
-           $params["where"] .=",labels";
-         }
-     }
-     $results = $this->getData("/v2/assets/".$embed_code,$params);
-     return json_encode($results);
- }
+ //     if(!is_null($labels)){
+ //         if (is_null($params["where"])){
+ //           $params["where"] ="include=metadata";
+ //         }else {
+ //           $params["where"] .=",labels";
+ //         }
+ //     }
+ //     $results = $this->getData("/v2/assets/".$embed_code,$params);
+ //     return json_encode($results);
+ // }
 
 
 
